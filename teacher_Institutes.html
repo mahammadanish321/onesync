@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Class Routine and Announcements | GMIT</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #1abc9c;
+            --secondary-color: #2c3e50;
+            --transition: all 0.3s ease;
+            --max-width: 1200px;
+        }
+
+        body {
+            --bg-color: #121212;
+            --card-bg: rgba(33, 33, 33, 0.9);
+            --text-primary: #ffffff;
+            --text-secondary: #b0b0b0;
+            --navbar-bg: rgba(27, 27, 27, 0.95);
+            --sidebar-bg: rgba(25, 25, 25, 0.95);
+        }
+
+        body.light-theme {
+            --bg-color: #f5f5f5;
+            --card-bg: rgba(255, 255, 255, 0.9);
+            --text-primary: #333333;
+            --text-secondary: #666666;
+            --navbar-bg: rgba(255, 255, 255, 0.95);
+            --sidebar-bg: rgba(245, 245, 245, 0.95);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-primary);
+            line-height: 1.6;
+            min-height: 100vh;
+            position: relative;
+        }
+
+        .background-video {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            object-fit: cover;
+            opacity: 0.2;
+        }
+
+        .navbar {
+            background-color: var(--navbar-bg);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 70px;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            transition: var(--transition);
+        }
+
+        .navbar .profile {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            min-width: 0;
+        }
+
+        .navbar .profile img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: 2px solid var(--primary-color);
+            flex-shrink: 0;
+        }
+
+        .navbar .info {
+            overflow: hidden;
+        }
+
+        .navbar .info .name {
+            font-size: 1.1rem;
+            font-weight: 600;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-width: 200px;
+        }
+
+        .navbar .info .role {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-width: 200px;
+        }
+
+        .navbar .theme-toggle {
+            background: none;
+            border: none;
+            color: var(--text-primary);
+            font-size: 1.5rem;
+            cursor: pointer;
+            padding: 0.5rem;
+            transition: var(--transition);
+        }
+
+        .navbar .theme-toggle:hover {
+            color: var(--primary-color);
+            transform: scale(1.1);
+        }
+
+        .sidebar {
+            width: 70px;
+            background-color: var(--sidebar-bg);
+            position: fixed;
+            top: 80px;
+            left: 0;
+            margin: 1rem;
+            border-radius: 15px;
+            padding: 1rem;
+            transition: width 0.3s ease;
+            z-index: 999;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .sidebar:hover {
+            width: 250px;
+        }
+
+        .sidebar h2 {
+            font-size: 1.25rem;
+            text-align: center;
+            margin-bottom: 1.5rem;
+            opacity: 0;
+            transition: var(--transition);
+        }
+
+        .sidebar:hover h2 {
+            opacity: 1;
+        }
+
+        .sidebar ul {
+            list-style: none;
+        }
+
+        .sidebar ul li a {
+            color: var(--text-primary);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            padding: 0.75rem;
+            border-radius: 8px;
+            transition: var(--transition);
+        }
+
+        .sidebar ul li a:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .sidebar ul li a i {
+            font-size: 1.25rem;
+            min-width: 30px;
+        }
+
+        .sidebar ul li a span {
+            opacity: 0;
+            font-size: 1rem;
+            margin-left: 1rem;
+            transition: var(--transition);
+        }
+
+        .sidebar:hover ul li a span {
+            opacity: 1;
+        }
+
+        .main-content {
+            max-width: var(--max-width);
+            margin: 100px auto 2rem;
+            padding: 0 2rem;
+            transition: margin-bottom 0.3s ease;
+        }
+
+        .institutes-container {
+            margin-left: 100px;
+            padding: 2rem 0;
+        }
+
+        .search-bar {
+            margin-bottom: 2rem;
+        }
+
+        .search-bar input {
+            width: 100%;
+            max-width: 400px;
+            padding: 0.75rem 1rem;
+            border: none;
+            border-radius: 25px;
+            background-color: var(--card-bg);
+            color: var(--text-primary);
+            font-size: 1rem;
+        }
+
+        .institute-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .institute-card {
+            background-color: var(--card-bg);
+            border-radius: 12px;
+            padding: 1.5rem;
+            transition: var(--transition);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .institute-card h2 {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+            color: var(--text-primary);
+        }
+
+        .institute-card p {
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+        }
+
+        .institute-card .stats {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .institute-card .stats div {
+            background-color: rgba(0, 0, 0, 0.2);
+            padding: 0.75rem;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .institute-card .stats div strong {
+            font-size: 1.25rem;
+            color: var(--primary-color);
+        }
+
+        .institute-card .stats div span {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        /* Improved Request Button Styles */
+        .request-btn {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 500;
+            transition: var(--transition);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .request-btn:hover {
+            background-color: var(--secondary-color);
+            transform: translateY(-2px);
+        }
+
+        .request-btn:active {
+            transform: translateY(0);
+        }
+
+        /* Media Queries */
+        @media (max-width: 768px) {
+            .navbar {
+                padding: 1rem;
+                height: 60px;
+            }
+
+            .navbar .profile img {
+                width: 35px;
+                height: 35px;
+            }
+
+            .navbar .info .name {
+                font-size: 1rem;
+                max-width: 150px;
+            }
+
+            .navbar .info .role {
+                font-size: 0.8rem;
+                max-width: 150px;
+            }
+
+            .sidebar {
+                width: 100%;
+                height: 60px;
+                top: auto;
+                bottom: 0;
+                margin: 0;
+                border-radius: 0;
+                padding: 0;
+                display: flex;
+                align-items: center;
+                transition: none; /* Remove width transition for mobile */
+            }
+
+            .sidebar ul {
+                display: flex;
+                justify-content: space-around;
+                width: 100%;
+            }
+
+            .sidebar ul li {
+                flex: 1;
+                text-align: center;
+            }
+
+            .sidebar ul li a {
+                padding: 0.5rem;
+                justify-content: center;
+            }
+
+            .sidebar ul li a i {
+                margin: 0;
+            }
+
+            .sidebar h2,
+            .sidebar ul li a span {
+                display: none;
+            }
+
+            .main-content {
+                margin-bottom: 80px; /* Adjusted for fixed sidebar height */
+            }
+
+            .institutes-container {
+                margin-left: 0;
+            }
+
+            .sidebar:hover {
+                width: 100%; /* Prevent expansion on hover in mobile */
+            }
+        }
+
+        @media (max-width: 480px) {
+            .navbar .info .name {
+                max-width: 100px;
+            }
+
+            .navbar .info .role {
+                font-size: 0.75rem;
+                max-width: 100px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <video class="background-video" autoplay loop muted playsinline>
+        <source src="Windmill Landscape Wallpaper(MP4).mp4" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
+    <div class="navbar">
+        <div class="profile">
+            <img src="contact-icon-illustration-isolated_23-2151903337.avif" alt="Profile Picture">
+            <div class="info">
+                <div class="name">HIRONMOY SAMANTHA</div>
+                <div class="role">Teacher - GMIT</div>
+            </div>
+        </div>
+        <button class="theme-toggle" onclick="toggleTheme()">
+            <i class="fas fa-moon"></i>
+        </button>
+    </div>
+
+    <div class="sidebar">
+        <h2>Dashboard</h2>
+        <ul>
+            <li><a href="teacher_dashboard.html"><i class="fas fa-home"></i><span>Dashboard</span></a></li>
+            <li><a href="teacher_profile.html"><i class="fas fa-user"></i><span>Profile</span></a></li>
+            <li><a href="teacher_Institutes.html"><i class="fas fa-school"></i><span>Institute</span></a></li>
+            <li><a href="teacher_classes.html"><i class="fas fa-chalkboard"></i><span>Classes</span></a></li>
+            <li><a href="teacher_attendance.html"><i class="fas fa-clipboard-check"></i><span>Attendance</span></a></li>
+            <li><a href="teacher_notifications.html"><i class="fas fa-bell"></i><span>Notifications</span></a></li>
+            <li><a href="teacher_chats.html"><i class="fas fa-comments"></i><span>Chats</span></a></li>
+            <li><a href="teacher_settings.html"><i class="fas fa-cog"></i><span>Settings</span></a></li>
+        </ul>
+    </div>
+
+    <div class="main-content">
+        <div class="institutes-container">
+            <div class="search-bar">
+                <input type="text" placeholder="Search Institutes...">
+            </div>
+
+            <div class="institute-grid">
+                <div class="institute-card">
+                    <h2>ABC University</h2>
+                    <p>New York, NY</p>
+                    <div class="stats">
+                        <div><strong>5000</strong><span>Students</span></div>
+                        <div><strong>250</strong><span>Teachers</span></div>
+                    </div>
+                    <button class="request-btn">Request to Join</button>
+                </div>
+
+                <div class="institute-card">
+                    <h2>XYZ College</h2>
+                    <p>Boston, MA</p>
+                    <div class="stats">
+                        <div><strong>3000</strong><span>Students</span></div>
+                        <div><strong>150</strong><span>Teachers</span></div>
+                    </div>
+                    <button class="request-btn">Request to Join</button>
+                </div>
+
+                <div class="institute-card">
+                    <h2>123 Institute</h2>
+                    <p>Chicago, IL</p>
+                    <div class="stats">
+                        <div><strong>2000</strong><span>Students</span></div>
+                        <div><strong>100</strong><span>Teachers</span></div>
+                    </div>
+                    <button class="request-btn">Request to Join</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function toggleTheme() {
+            const body = document.body;
+            const themeIcon = document.querySelector('.theme-toggle i');
+            body.classList.toggle('light-theme');
+            themeIcon.classList.toggle('fa-moon');
+            themeIcon.classList.toggle('fa-sun');
+            localStorage.setItem('theme', body.classList.contains('light-theme') ? 'light' : 'dark');
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const savedTheme = localStorage.getItem('theme');
+            const themeIcon = document.querySelector('.theme-toggle i');
+            if (savedTheme === 'light') {
+                document.body.classList.add('light-theme');
+                themeIcon.classList.remove('fa-moon');
+                themeIcon.classList.add('fa-sun');
+            }
+        });
+    </script>
+</body>
+</html>

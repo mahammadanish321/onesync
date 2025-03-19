@@ -1,0 +1,592 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Settings | GMIT</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #1abc9c;
+            --secondary-color: #2c3e50;
+            --transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+            --max-width: 1200px;
+            --live-color: #e74c3c;
+            --offline-color: #3498db;
+        }
+
+        body {
+            --bg-color: #121212;
+            --card-bg: rgba(33, 33, 33, 0.9);
+            --text-primary: #ffffff;
+            --text-secondary: #b0b0b0;
+            --navbar-bg: rgba(27, 27, 27, 0.95);
+            --sidebar-bg: rgba(25, 25, 25, 0.95);
+            --content-bg: rgba(0, 0, 0, 0.7);
+            --shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+
+        body.light-theme {
+            --bg-color: #f5f5f5;
+            --card-bg: rgba(255, 255, 255, 0.9);
+            --text-primary: #333333;
+            --text-secondary: #666666;
+            --navbar-bg: rgba(255, 255, 255, 0.95);
+            --sidebar-bg: rgba(245, 245, 245, 0.95);
+            --content-bg: rgba(255, 255, 255, 0.7);
+            --shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            --live-color: #c0392b;
+            --offline-color: #2980b9;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-primary);
+            line-height: 1.6;
+            min-height: 100vh;
+            transition: var(--transition);
+        }
+
+        .background-video {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            object-fit: cover;
+            opacity: 0.3;
+        }
+
+        .navbar {
+            background-color: var(--navbar-bg);
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            box-shadow: var(--shadow);
+        }
+
+        .navbar .profile {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .navbar .profile img {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            border: 2px solid var(--primary-color);
+        }
+
+        .navbar .info .name {
+            font-size: 18px;
+            font-weight: 600;
+        }
+
+        .navbar .info .role {
+            font-size: 14px;
+            color: var(--text-secondary);
+        }
+
+        .navbar .theme-toggle {
+            background: none;
+            border: none;
+            color: var(--text-primary);
+            font-size: 24px;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .navbar .theme-toggle:hover {
+            transform: scale(1.1);
+            color: var(--primary-color);
+        }
+
+        .sidebar {
+            width: 70px;
+            background-color: var(--sidebar-bg);
+            position: fixed;
+            top: 80px;
+            left: 20px;
+            border-radius: 30px;
+            padding: 20px;
+            transition: width var(--transition);
+            z-index: 999;
+            box-shadow: var(--shadow);
+        }
+
+        .sidebar:hover {
+            width: 220px;
+        }
+
+        .sidebar h2 {
+            font-size: 20px;
+            text-align: center;
+            margin-bottom: 20px;
+            opacity: 0;
+            transition: opacity 0.2s ease-out;
+        }
+
+        .sidebar:hover h2 {
+            opacity: 1;
+        }
+
+        .sidebar ul {
+            list-style: none;
+        }
+
+        .sidebar ul li {
+            margin: 20px 0;
+        }
+
+        .sidebar ul li a {
+            color: var(--text-primary);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            padding: 10px;
+            border-radius: 8px;
+            transition: var(--transition);
+        }
+
+        .sidebar ul li a:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+            color: var(--primary-color);
+        }
+
+        .sidebar ul li a i {
+            margin-right: 15px;
+            font-size: 20px;
+            min-width: 20px;
+        }
+
+        .sidebar ul li a span {
+            opacity: 0;
+            font-size: 16px;
+            transition: opacity 0.2s ease-out;
+        }
+
+        .sidebar:hover ul li a span {
+            opacity: 1;
+        }
+
+        .main-content {
+            max-width: var(--max-width);
+            margin: 90px 30px 30px 120px;
+            padding: 25px;
+            background-color: var(--content-bg);
+            border-radius: 15px;
+            min-height: calc(100vh - 130px);
+            transition: margin-left var(--transition);
+            box-shadow: var(--shadow);
+        }
+
+        .sidebar:hover ~ .main-content {
+            margin-left: 260px;
+        }
+
+        .settings-section {
+            background-color: var(--card-bg);
+            border-radius: 12px;
+            padding: 2rem;
+            box-shadow: var(--shadow);
+        }
+
+        .settings-section h2 {
+            font-size: 1.6rem;
+            margin-bottom: 1.5rem;
+            color: var(--primary-color);
+            font-weight: 600;
+        }
+
+        .settings-group {
+            margin-bottom: 2rem;
+        }
+
+        .settings-group h3 {
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+            color: var(--text-primary);
+            border-bottom: 2px solid var(--primary-color);
+            padding-bottom: 0.5rem;
+        }
+
+        .setting-item {
+            margin-bottom: 1.5rem;
+        }
+
+        .setting-item label {
+            display: block;
+            font-size: 1.1rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .setting-item input[type="text"],
+        .setting-item input[type="password"],
+        .setting-item select {
+            width: 100%;
+            max-width: 400px;
+            padding: 0.75rem;
+            border: none;
+            border-radius: 6px;
+            background-color: rgba(0, 0, 0, 0.2);
+            color: var(--text-primary);
+            font-size: 1rem;
+        }
+
+        .setting-item input[type="checkbox"] {
+            margin-right: 0.5rem;
+        }
+
+        .setting-btn {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 0.6rem 1.25rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.95rem;
+            transition: var(--transition);
+        }
+
+        .setting-btn:hover {
+            background-color: var(--secondary-color);
+        }
+
+        .logout-btn {
+            background-color: var(--live-color);
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: var(--transition);
+            display: block;
+            margin: 2rem auto 0;
+        }
+
+        .logout-btn:hover {
+            background-color: #c0392b;
+        }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                width: 100%;
+                height: 60px;
+                top: auto;
+                bottom: 0;
+                left: 0;
+                margin: 0;
+                border-radius: 0;
+                padding: 0;
+                display: flex;
+                transition: none;
+                z-index: 1000;
+                overflow: hidden;
+            }
+
+            .sidebar ul {
+                display: flex;
+                justify-content: space-around;
+                align-items: center;
+                width: 100%;
+                height: 100%;
+                margin: 0;
+                padding: 0;
+            }
+
+            .sidebar h2,
+            .sidebar ul li a span {
+                display: none;
+            }
+
+            .sidebar ul li {
+                margin: 0;
+                flex: 1;
+                height: 100%;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+            }
+
+            .sidebar ul li a {
+                padding: 0;
+                height: 100%;
+                width: 100%;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                border-radius: 0;
+            }
+
+            .sidebar ul li a i {
+                margin-right: 0;
+                font-size: 24px;
+            }
+
+            .main-content {
+                margin: 80px 15px 70px 15px;
+                transition: none;
+            }
+
+            .sidebar:hover {
+                width: 100%;
+                height: 60px;
+            }
+
+            .sidebar:hover ~ .main-content {
+                margin-left: 15px;
+            }
+
+            .setting-item input[type="text"],
+            .setting-item input[type="password"],
+            .setting-item select {
+                max-width: 100%;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .navbar {
+                padding: 10px 15px;
+            }
+
+            .settings-section {
+                padding: 1.5rem;
+            }
+
+            .sidebar ul li a i {
+                font-size: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <video class="background-video" autoplay loop muted playsinline>
+        <source src="Windmill Landscape Wallpaper(MP4).mp4" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
+    <div class="navbar">
+        <div class="profile">
+            <img src="https://via.placeholder.com/40" alt="Profile Picture">
+            <div class="info">
+                <div class="name">MAHAMMAD ANISH</div>
+                <div class="role">Student - GMIT</div>
+            </div>
+        </div>
+        <button class="theme-toggle" onclick="toggleTheme()">
+            <i class="fas fa-moon"></i>
+        </button>
+    </div>
+
+    <div class="sidebar">
+        <h2>Dashboard</h2>
+        <ul>
+            <li><a href="homeandfeed.html"><i class="fas fa-home"></i><span>Home</span></a></li>
+            <li><a href="sprofile.html"><i class="fas fa-user"></i><span>Profile</span></a></li>
+            <li><a href="Institutes.html"><i class="fas fa-school"></i><span>Institute</span></a></li>
+            <li><a href="class.html"><i class="fas fa-chalkboard"></i><span>Classes</span></a></li>
+            <li><a href="attadenc.html"><i class="fas fa-clipboard-check"></i><span>Attendance</span></a></li>
+            <li><a href="notifacation.html"><i class="fas fa-bell"></i><span>Notifications</span></a></li>
+            <li><a href="schat.html"><i class="fas fa-comments"></i><span>Chats</span></a></li>
+            <li><a href="ssettings.html"><i class="fas fa-cog"></i><span>Settings</span></a></li>
+        </ul>
+    </div>
+
+    <div class="main-content">
+        <div class="settings-section">
+            <h2>Settings</h2>
+
+            <div class="settings-group">
+                <h3>Profile</h3>
+                <div class="setting-item">
+                    <label for="displayName">Display Name</label>
+                    <input type="text" id="displayName" value="Mahammad Anish" placeholder="Enter your name">
+                </div>
+                <div class="setting-item">
+                    <label for="email">Email</label>
+                    <input type="text" id="email" value="anish@example.com" placeholder="Enter your email">
+                </div>
+                <button class="setting-btn" onclick="saveProfile()">Save Profile</button>
+            </div>
+
+            <div class="settings-group">
+                <h3>Appearance</h3>
+                <div class="setting-item">
+                    <label for="theme">Theme</label>
+                    <select id="theme" onchange="changeTheme(this.value)">
+                        <option value="dark" selected>Dark</option>
+                        <option value="light">Light</option>
+                        <option value="system">System Default</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="settings-group">
+                <h3>Notifications</h3>
+                <div class="setting-item">
+                    <label>
+                        <input type="checkbox" id="classReminders" checked> Class Reminders
+                    </label>
+                </div>
+                <div class="setting-item">
+                    <label>
+                        <input type="checkbox" id="assignmentAlerts" checked> Assignment Alerts
+                    </label>
+                </div>
+                <div class="setting-item">
+                    <label>
+                        <input type="checkbox" id="chatMessages"> New Chat Messages
+                    </label>
+                </div>
+                <button class="setting-btn" onclick="saveNotifications()">Save Notification Settings</button>
+            </div>
+
+            <div class="settings-group">
+                <h3>Security</h3>
+                <div class="setting-item">
+                    <label for="currentPassword">Current Password</label>
+                    <input type="password" id="currentPassword" placeholder="Enter current password">
+                </div>
+                <div class="setting-item">
+                    <label for="newPassword">New Password</label>
+                    <input type="password" id="newPassword" placeholder="Enter new password">
+                </div>
+                <div class="setting-item">
+                    <label for="confirmPassword">Confirm New Password</label>
+                    <input type="password" id="confirmPassword" placeholder="Confirm new password">
+                </div>
+                <button class="setting-btn" onclick="changePassword()">Change Password</button>
+            </div>
+
+            <button class="logout-btn" onclick="logout()">Logout</button>
+        </div>
+    </div>
+
+    <script>
+        function toggleTheme() {
+            const body = document.body;
+            const themeIcon = document.querySelector('.theme-toggle i');
+            body.classList.toggle('light-theme');
+            themeIcon.classList.toggle('fa-moon');
+            themeIcon.classList.toggle('fa-sun');
+            const newTheme = body.classList.contains('light-theme') ? 'light' : 'dark';
+            localStorage.setItem('theme', newTheme);
+            document.getElementById('theme').value = newTheme;
+        }
+
+        function changeTheme(value) {
+            const body = document.body;
+            const themeIcon = document.querySelector('.theme-toggle i');
+            if (value === 'light') {
+                body.classList.add('light-theme');
+                themeIcon.classList.remove('fa-moon');
+                themeIcon.classList.add('fa-sun');
+                localStorage.setItem('theme', 'light');
+            } else if (value === 'dark') {
+                body.classList.remove('light-theme');
+                themeIcon.classList.remove('fa-sun');
+                themeIcon.classList.add('fa-moon');
+                localStorage.setItem('theme', 'dark');
+            } else {
+                // System default (basic implementation)
+                const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+                if (prefersDark) {
+                    body.classList.add('light-theme');
+                    themeIcon.classList.remove('fa-moon');
+                    themeIcon.classList.add('fa-sun');
+                } else {
+                    body.classList.remove('light-theme');
+                    themeIcon.classList.remove('fa-sun');
+                    themeIcon.classList.add('fa-moon');
+                }
+                localStorage.setItem('theme', 'system');
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const savedTheme = localStorage.getItem('theme') || 'dark';
+            const themeIcon = document.querySelector('.theme-toggle i');
+            document.getElementById('theme').value = savedTheme;
+            if (savedTheme === 'light') {
+                document.body.classList.add('light-theme');
+                themeIcon.classList.remove('fa-moon');
+                themeIcon.classList.add('fa-sun');
+            } else if (savedTheme === 'dark') {
+                document.body.classList.remove('light-theme');
+                themeIcon.classList.remove('fa-sun');
+                themeIcon.classList.add('fa-moon');
+            } else if (savedTheme === 'system') {
+                const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+                if (prefersDark) {
+                    document.body.classList.add('light-theme');
+                    themeIcon.classList.remove('fa-moon');
+                    themeIcon.classList.add('fa-sun');
+                }
+            }
+        });
+
+        function saveProfile() {
+            const name = document.getElementById('displayName').value;
+            const email = document.getElementById('email').value;
+            if (name && email) {
+                // Placeholder for saving profile data
+                console.log('Profile saved:', { name, email });
+                alert('Profile settings saved successfully!');
+            } else {
+                alert('Please fill in all fields.');
+            }
+        }
+
+        function saveNotifications() {
+            const classReminders = document.getElementById('classReminders').checked;
+            const assignmentAlerts = document.getElementById('assignmentAlerts').checked;
+            const chatMessages = document.getElementById('chatMessages').checked;
+            // Placeholder for saving notification settings
+            console.log('Notification settings saved:', { classReminders, assignmentAlerts, chatMessages });
+            alert('Notification settings saved successfully!');
+        }
+
+        function changePassword() {
+            const currentPassword = document.getElementById('currentPassword').value;
+            const newPassword = document.getElementById('newPassword').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
+            if (currentPassword && newPassword && confirmPassword) {
+                if (newPassword === confirmPassword) {
+                    // Placeholder for password change logic
+                    console.log('Password change requested:', { currentPassword, newPassword });
+                    alert('Password changed successfully!');
+                    document.getElementById('currentPassword').value = '';
+                    document.getElementById('newPassword').value = '';
+                    document.getElementById('confirmPassword').value = '';
+                } else {
+                    alert('New password and confirmation do not match.');
+                }
+            } else {
+                alert('Please fill in all password fields.');
+            }
+        }
+
+        function logout() {
+            if (confirm('Are you sure you want to logout?')) {
+                alert('Logged out successfully!');
+                // Add logout logic here (e.g., redirect to login page)
+                window.location.href = 'login.html'; // Replace with actual login page URL
+            }
+        }
+    </script>
+</body>
+</html>

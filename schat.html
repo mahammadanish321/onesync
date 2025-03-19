@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chats | GMIT</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #1abc9c;
+            --secondary-color: #2c3e50;
+            --transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+            --max-width: 1200px;
+            --live-color: #e74c3c;
+            --offline-color: #3498db;
+        }
+
+        body {
+            --bg-color: #121212;
+            --card-bg: rgba(33, 33, 33, 0.9);
+            --text-primary: #ffffff;
+            --text-secondary: #b0b0b0;
+            --navbar-bg: rgba(27, 27, 27, 0.95);
+            --sidebar-bg: rgba(25, 25, 25, 0.95);
+            --content-bg: rgba(0, 0, 0, 0.7);
+            --shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+
+        body.light-theme {
+            --bg-color: #f5f5f5;
+            --card-bg: rgba(255, 255, 255, 0.9);
+            --text-primary: #333333;
+            --text-secondary: #666666;
+            --navbar-bg: rgba(255, 255, 255, 0.95);
+            --sidebar-bg: rgba(245, 245, 245, 0.95);
+            --content-bg: rgba(255, 255, 255, 0.7);
+            --shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            --live-color: #c0392b;
+            --offline-color: #2980b9;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-primary);
+            line-height: 1.6;
+            min-height: 100vh;
+            transition: var(--transition);
+        }
+
+        .background-video {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            object-fit: cover;
+            opacity: 0.3;
+        }
+
+        .navbar {
+            background-color: var(--navbar-bg);
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            box-shadow: var(--shadow);
+        }
+
+        .navbar .profile {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .navbar .profile img {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            border: 2px solid var(--primary-color);
+        }
+
+        .navbar .info .name {
+            font-size: 18px;
+            font-weight: 600;
+        }
+
+        .navbar .info .role {
+            font-size: 14px;
+            color: var(--text-secondary);
+        }
+
+        .navbar .theme-toggle {
+            background: none;
+            border: none;
+            color: var(--text-primary);
+            font-size: 24px;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .navbar .theme-toggle:hover {
+            transform: scale(1.1);
+            color: var(--primary-color);
+        }
+
+        .sidebar {
+            width: 70px;
+            background-color: var(--sidebar-bg);
+            position: fixed;
+            top: 80px;
+            left: 20px;
+            border-radius: 30px;
+            padding: 20px;
+            transition: width var(--transition);
+            z-index: 999;
+            box-shadow: var(--shadow);
+        }
+
+        .sidebar:hover {
+            width: 220px;
+        }
+
+        .sidebar h2 {
+            font-size: 20px;
+            text-align: center;
+            margin-bottom: 20px;
+            opacity: 0;
+            transition: opacity 0.2s ease-out;
+        }
+
+        .sidebar:hover h2 {
+            opacity: 1;
+        }
+
+        .sidebar ul {
+            list-style: none;
+        }
+
+        .sidebar ul li {
+            margin: 20px 0;
+        }
+
+        .sidebar ul li a {
+            color: var(--text-primary);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            padding: 10px;
+            border-radius: 8px;
+            transition: var(--transition);
+        }
+
+        .sidebar ul li a:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+            color: var(--primary-color);
+        }
+
+        .sidebar ul li a i {
+            margin-right: 15px;
+            font-size: 20px;
+            min-width: 20px;
+        }
+
+        .sidebar ul li a span {
+            opacity: 0;
+            font-size: 16px;
+            transition: opacity 0.2s ease-out;
+        }
+
+        .sidebar:hover ul li a span {
+            opacity: 1;
+        }
+
+        .main-content {
+            max-width: var(--max-width);
+            margin: 90px 30px 30px 120px;
+            padding: 25px;
+            background-color: var(--content-bg);
+            border-radius: 15px;
+            min-height: calc(100vh - 130px);
+            transition: margin-left var(--transition);
+            box-shadow: var(--shadow);
+            display: flex;
+            gap: 2rem;
+        }
+
+        .sidebar:hover ~ .main-content {
+            margin-left: 260px;
+        }
+
+        .chat-sidebar {
+            width: 250px;
+            background-color: var(--card-bg);
+            border-radius: 12px;
+            padding: 2rem;
+            box-shadow: var(--shadow);
+            flex-shrink: 0;
+        }
+
+        .chat-sidebar h2 {
+            font-size: 1.6rem;
+            margin-bottom: 1.5rem;
+            color: var(--primary-color);
+            font-weight: 600;
+        }
+
+        .chat-groups {
+            list-style: none;
+        }
+
+        .chat-group {
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .chat-group:hover, .chat-group.active {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .chat-group h3 {
+            font-size: 1.1rem;
+            margin-bottom: 0.3rem;
+        }
+
+        .chat-group p {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        .chat-window {
+            flex: 1;
+            background-color: var(--card-bg);
+            border-radius: 12px;
+            padding: 2rem;
+            box-shadow: var(--shadow);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .chat-header {
+            margin-bottom: 1.5rem;
+        }
+
+        .chat-header h2 {
+            font-size: 1.6rem;
+            color: var(--primary-color);
+            font-weight: 600;
+        }
+
+        .chat-messages {
+            flex: 1;
+            overflow-y: auto;
+            margin-bottom: 1.5rem;
+        }
+
+        .message {
+            margin-bottom: 1rem;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .message.sent {
+            align-items: flex-end;
+        }
+
+        .message.received {
+            align-items: flex-start;
+        }
+
+        .message-content {
+            max-width: 70%;
+            padding: 0.75rem 1rem;
+            border-radius: 8px;
+            background-color: rgba(0, 0, 0, 0.15);
+        }
+
+        .message.sent .message-content {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        .message.received .message-content {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .message-sender {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            margin-bottom: 0.3rem;
+        }
+
+        .message-time {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            margin-top: 0.3rem;
+        }
+
+        .chat-input {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .chat-input input {
+            flex: 1;
+            padding: 0.75rem;
+            border: none;
+            border-radius: 6px;
+            background-color: rgba(0, 0, 0, 0.2);
+            color: var(--text-primary);
+            font-size: 1rem;
+        }
+
+        .chat-input button {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .chat-input button:hover {
+            background-color: var(--secondary-color);
+        }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                width: 100%;
+                height: 60px;
+                top: auto;
+                bottom: 0;
+                left: 0;
+                margin: 0;
+                border-radius: 0;
+                padding: 0;
+                display: flex;
+                transition: none;
+                z-index: 1000;
+                overflow: hidden;
+            }
+
+            .sidebar ul {
+                display: flex;
+                justify-content: space-around;
+                align-items: center;
+                width: 100%;
+                height: 100%;
+                margin: 0;
+                padding: 0;
+            }
+
+            .sidebar h2,
+            .sidebar ul li a span {
+                display: none;
+            }
+
+            .sidebar ul li {
+                margin: 0;
+                flex: 1;
+                height: 100%;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+            }
+
+            .sidebar ul li a {
+                padding: 0;
+                height: 100%;
+                width: 100%;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                border-radius: 0;
+            }
+
+            .sidebar ul li a i {
+                margin-right: 0;
+                font-size: 24px;
+            }
+
+            .main-content {
+                margin: 80px 15px 70px 15px;
+                transition: none;
+                flex-direction: column;
+            }
+
+            .sidebar:hover {
+                width: 100%;
+                height: 60px;
+            }
+
+            .sidebar:hover ~ .main-content {
+                margin-left: 15px;
+            }
+
+            .chat-sidebar {
+                width: 100%;
+            }
+
+            .chat-window {
+                width: 100%;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .navbar {
+                padding: 10px 15px;
+            }
+
+            .chat-sidebar, .chat-window {
+                padding: 1.5rem;
+            }
+
+            .sidebar ul li a i {
+                font-size: 20px;
+            }
+
+            .chat-input {
+                flex-direction: column;
+            }
+
+            .chat-input button {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <video class="background-video" autoplay loop muted playsinline>
+        <source src="Windmill Landscape Wallpaper(MP4).mp4" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
+    <div class="navbar">
+        <div class="profile">
+            <img src="WhatsApp Image 2025-03-02 at 23.01.15_66336f4b.jpg" alt="Profile Picture">
+            <div class="info">
+                <div class="name">MAHAMMAD ANISH</div>
+                <div class="role">Student - GMIT</div>
+            </div>
+        </div>
+        <button class="theme-toggle" onclick="toggleTheme()">
+            <i class="fas fa-moon"></i>
+        </button>
+    </div>
+
+    <div class="sidebar">
+        <h2>Dashboard</h2>
+        <ul>
+            <li><a href="homeandfeed.html"><i class="fas fa-home"></i><span>Home</span></a></li>
+            <li><a href="sprofile.html"><i class="fas fa-user"></i><span>Profile</span></a></li>
+            <li><a href="Institutes.html"><i class="fas fa-school"></i><span>Institute</span></a></li>
+            <li><a href="classes.html"><i class="fas fa-chalkboard"></i><span>Classes</span></a></li>
+            <li><a href="attadenc.html"><i class="fas fa-clipboard-check"></i><span>Attendance</span></a></li>
+            <li><a href="notifacation.html"><i class="fas fa-bell"></i><span>Notifications</span></a></li>
+            <li><a href="schat.html"><i class="fas fa-comments"></i><span>Chats</span></a></li>
+            <li><a href="ssettings.html"><i class="fas fa-cog"></i><span>Settings</span></a></li>
+        </ul>
+    </div>
+
+    <div class="main-content">
+        <div class="chat-sidebar">
+            <h2>Chat Groups</h2>
+            <ul class="chat-groups">
+                <li class="chat-group active" onclick="selectChat('Data Structures - Prof. Smith')">
+                    <h3>Data Structures</h3>
+                    <p>Prof. Smith</p>
+                </li>
+                <li class="chat-group" onclick="selectChat('Algorithms - Prof. Johnson')">
+                    <h3>Algorithms</h3>
+                    <p>Prof. Johnson</p>
+                </li>
+                <li class="chat-group" onclick="selectChat('Calculus II - Prof. Davis')">
+                    <h3>Calculus II</h3>
+                    <p>Prof. Davis</p>
+                </li>
+                <li class="chat-group" onclick="selectChat('Linear Algebra - Prof. Wilson')">
+                    <h3>Linear Algebra</h3>
+                    <p>Prof. Wilson</p>
+                </li>
+            </ul>
+        </div>
+
+        <div class="chat-window">
+            <div class="chat-header">
+                <h2 id="chat-title">Data Structures - Prof. Smith</h2>
+            </div>
+            <div class="chat-messages" id="chatMessages">
+                <div class="message received">
+                    <span class="message-sender">Prof. Smith</span>
+                    <div class="message-content">Reminder: Assignment due tomorrow!</div>
+                    <span class="message-time">Today, 9:30 AM</span>
+                </div>
+                <div class="message sent">
+                    <div class="message-content">Thanks for the reminder, Prof!</div>
+                    <span class="message-time">Today, 9:32 AM</span>
+                </div>
+                <div class="message received">
+                    <span class="message-sender">John Doe</span>
+                    <div class="message-content">Can someone explain question 3?</div>
+                    <span class="message-time">Today, 9:35 AM</span>
+                </div>
+            </div>
+            <div class="chat-input">
+                <input type="text" id="messageInput" placeholder="Type a message...">
+                <button onclick="sendMessage()">Send</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function toggleTheme() {
+            const body = document.body;
+            const themeIcon = document.querySelector('.theme-toggle i');
+            body.classList.toggle('light-theme');
+            themeIcon.classList.toggle('fa-moon');
+            themeIcon.classList.toggle('fa-sun');
+            localStorage.setItem('theme', body.classList.contains('light-theme') ? 'light' : 'dark');
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const savedTheme = localStorage.getItem('theme');
+            const themeIcon = document.querySelector('.theme-toggle i');
+            if (savedTheme === 'light') {
+                document.body.classList.add('light-theme');
+                themeIcon.classList.remove('fa-moon');
+                themeIcon.classList.add('fa-sun');
+            }
+        });
+
+        function selectChat(groupName) {
+            const groups = document.querySelectorAll('.chat-group');
+            groups.forEach(group => group.classList.remove('active'));
+            event.currentTarget.classList.add('active');
+            document.getElementById('chat-title').textContent = groupName;
+
+            // Placeholder for loading chat messages
+            const chatMessages = document.getElementById('chatMessages');
+            chatMessages.innerHTML = `
+                <div class="message received">
+                    <span class="message-sender">${groupName.split(' - ')[1]}</span>
+                    <div class="message-content">Welcome to the ${groupName.split(' - ')[0]} group chat!</div>
+                    <span class="message-time">Today, ${new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>
+                </div>
+            `;
+        }
+
+        function sendMessage() {
+            const input = document.getElementById('messageInput');
+            const message = input.value.trim();
+            if (message) {
+                const chatMessages = document.getElementById('chatMessages');
+                const newMessage = document.createElement('div');
+                newMessage.classList.add('message', 'sent');
+                newMessage.innerHTML = `
+                    <div class="message-content">${message}</div>
+                    <span class="message-time">Today, ${new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>
+                `;
+                chatMessages.appendChild(newMessage);
+                chatMessages.scrollTop = chatMessages.scrollHeight; // Auto-scroll to bottom
+                input.value = '';
+            }
+        }
+
+        document.getElementById('messageInput').addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                sendMessage();
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Coming Soon | GMIT Teacher Portal</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #1abc9c;
+            --secondary-color: #2c3e50;
+            --transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+            --shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #1a1a1a;
+            color: #ffffff;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* Animated Background */
+        .background-video {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            object-fit: cover;
+            opacity: 0.3;
+        }
+
+        .particle {
+            position: absolute;
+            background: rgba(26, 188, 156, 0.5);
+            border-radius: 50%;
+            pointer-events: none;
+            animation: float 10s infinite ease-in-out;
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0) translateX(0);
+                opacity: 0.5;
+            }
+            50% {
+                transform: translateY(-100vh) translateX(10vw);
+                opacity: 0;
+            }
+        }
+
+        /* Main Content */
+        .coming-soon-container {
+            text-align: center;
+            padding: 40px;
+            background: rgba(44, 44, 44, 0.9);
+            border-radius: 15px;
+            box-shadow: var(--shadow);
+            max-width: 600px;
+            width: 90%;
+            z-index: 1;
+        }
+
+        .coming-soon-container h1 {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            color: var(--primary-color);
+            animation: fadeIn 2s ease-in-out;
+        }
+
+        .coming-soon-container p {
+            font-size: 1.2rem;
+            margin-bottom: 30px;
+            color: #b0b0b0;
+            animation: fadeIn 2s ease-in-out 0.5s;
+        }
+
+        /* Progress Circle */
+        .progress-circle {
+            width: 150px;
+            height: 150px;
+            margin: 0 auto 30px;
+            background: conic-gradient(var(--primary-color) 0%, #333 0%);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            animation: rotate 4s linear infinite;
+        }
+
+        .progress-circle::before {
+            content: '';
+            position: absolute;
+            width: 130px;
+            height: 130px;
+            background: #2c2c2c;
+            border-radius: 50%;
+            z-index: 1;
+        }
+
+        .progress-circle span {
+            position: relative;
+            z-index: 2;
+            font-size: 1.5rem;
+            color: var(--primary-color);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes rotate {
+            0% {
+                background: conic-gradient(var(--primary-color) 0%, #333 0%);
+            }
+            100% {
+                background: conic-gradient(var(--primary-color) 360deg, #333 0deg);
+            }
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.1);
+            }
+        }
+
+        /* Subscription Form */
+        .subscribe-form {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 20px;
+            animation: fadeIn 2s ease-in-out 1.5s;
+        }
+
+        .subscribe-form input[type="email"] {
+            padding: 10px;
+            width: 250px;
+            border: none;
+            border-radius: 5px;
+            background: #333;
+            color: #fff;
+            font-size: 1rem;
+        }
+
+        .subscribe-form button {
+            padding: 10px 20px;
+            background: var(--primary-color);
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .subscribe-form button:hover {
+            background: var(--secondary-color);
+            transform: scale(1.05);
+        }
+
+        /* Social Links */
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            animation: fadeIn 2s ease-in-out 2s;
+        }
+
+        .social-links a {
+            color: #b0b0b0;
+            font-size: 1.5rem;
+            transition: var(--transition);
+        }
+
+        .social-links a:hover {
+            color: var(--primary-color);
+            transform: scale(1.2);
+        }
+
+        /* Fade In Animation */
+        @keyframes fadeIn {
+            0% {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @media (max-width: 480px) {
+            .coming-soon-container h1 {
+                font-size: 2rem;
+            }
+
+            .coming-soon-container p {
+                font-size: 1rem;
+            }
+
+            .progress-circle {
+                width: 120px;
+                height: 120px;
+            }
+
+            .progress-circle::before {
+                width: 100px;
+                height: 100px;
+            }
+
+            .progress-circle span {
+                font-size: 1.2rem;
+            }
+
+            .subscribe-form input[type="email"] {
+                width: 200px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <video class="background-video" autoplay loop muted playsinline>
+        <source src="Windmill Landscape Wallpaper(MP4).mp4" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
+    <!-- Particles for Animation -->
+    <div class="particle" style="width: 10px; height: 10px; top: 10%; left: 20%; animation-delay: 0s;"></div>
+    <div class="particle" style="width: 15px; height: 15px; top: 30%; left: 40%; animation-delay: 2s;"></div>
+    <div class="particle" style="width: 12px; height: 12px; top: 50%; left: 60%; animation-delay: 4s;"></div>
+    <div class="particle" style="width: 8px; height: 8px; top: 70%; left: 80%; animation-delay: 6s;"></div>
+
+    <div class="coming-soon-container">
+        <h1>Coming Soon!</h1>
+        <p>We’re working hard to launch the GMIT Teacher Portal. Stay tuned for an amazing experience!</p>
+
+        <!-- Progress Circle -->
+        <div class="progress-circle">
+            <span>In Progress</span>
+        </div>
+
+        <!-- Subscription Form -->
+        <form class="subscribe-form" onsubmit="subscribe(event)">
+            <input type="email" placeholder="Enter your email" required>
+            <button type="submit">Notify Me</button>
+        </form>
+
+        <!-- Social Links -->
+        <div class="social-links">
+            <a href="https://x.com/home" target="_blank"><i class="fab fa-twitter"></i></a>
+            <a href="https://www.facebook.com/anish.mohammod.3" target="_blank"><i class="fab fa-facebook"></i></a>
+            <a href="https://www.instagram.com/anish_ne/" target="_blank"><i class="fab fa-instagram"></i></a>
+            <a href="https://www.linkedin.com/in/%EA%AE%87%EA%AE%A2-%EA%AE%A7%EA%AE%91%EA%AD%B5%EA%AE%A5%EA%AE%92-41aa70314/" target="_blank"><i class="fab fa-linkedin"></i></a>
+        </div>
+    </div>
+
+    <script>
+        // Subscription Form
+        function subscribe(event) {
+            event.preventDefault();
+            const email = event.target.querySelector('input[type="email"]').value;
+            alert(`Thank you for subscribing with ${email}! We'll notify you when we launch.`);
+            event.target.reset();
+        }
+    </script>
+</body>
+</html>

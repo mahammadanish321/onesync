@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create an Account</title>
+    <style>
+        /* General Styles */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #000000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+            overflow: auto;
+        }
+
+        /* Background Video */
+        .background-video {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: -1;
+            border: none;
+            object-fit: cover;
+        }
+
+        /* Container */
+        .container {
+            text-align: center;
+            background-color: rgba(21, 21, 21, 0.97);
+            padding: 30px;
+            border-radius: 15px;
+            border: 2px solid #9a9a9a;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            max-width: 500px;
+            width: 100%;
+            margin: 20px;
+            overflow: hidden;
+        }
+
+        h1 {
+            color: #ffffff;
+            font-size: 2rem;
+            margin-bottom: 10px;
+        }
+
+        p {
+            color: #c4c4c4;
+            font-size: 1rem;
+            line-height: 1.5;
+            margin-bottom: 20px;
+        }
+
+        /* Role Buttons */
+        .role-buttons {
+            display: flex;
+            justify-content: space-between;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .role-buttons button {
+            flex: 1;
+            padding: 12px;
+            font-size: 14px;
+            color: #fff;
+            background-color: #124c00;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+
+        .role-buttons button:hover {
+            background-color: #0fb300;
+            transform: scale(1.05);
+        }
+
+        /* Form Groups */
+        .form-group {
+            margin: 15px 0;
+            text-align: left;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            color: #ffffff;
+            font-size: 14px;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            font-size: 14px;
+            background-color: #333;
+            color: #fff;
+        }
+
+        /* Buttons */
+        .register-button {
+            width: 100%;
+            padding: 12px;
+            font-size: 16px;
+            color: #fff;
+            background-color: #124c00;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            margin-top: 20px;
+        }
+
+        .register-button:hover {
+            background-color: #0fb300;
+            transform: scale(1.05);
+        }
+
+        .google-button {
+            width: 100%;
+            padding: 12px;
+            font-size: 16px;
+            color: #333;
+            background-color: #fff;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            margin-top: 10px;
+        }
+
+        .google-button:hover {
+            background-color: #f4f4f4;
+            transform: scale(1.05);
+        }
+
+        /* Login Link */
+        .login-link {
+            margin-top: 20px;
+            color: #1aff00;
+            text-decoration: none;
+            font-size: 14px;
+            transition: color 0.3s ease;
+        }
+
+        .login-link:hover {
+            color: #0056b3;
+        }
+
+        /* Hidden Sections */
+        .hidden {
+            display: none;
+        }
+
+        /* Highlighted Role Button */
+        .role-buttons button.selected-role {
+            background-color: #0fb300;
+            border: 2px solid #1aff00;
+            transform: scale(1.05);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 1.8rem;
+            }
+
+            p {
+                font-size: 0.9rem;
+            }
+
+            .role-buttons {
+                flex-direction: column;
+            }
+
+            .role-buttons button {
+                width: 100%;
+                margin: 5px 0;
+            }
+
+            .form-group input {
+                padding: 8px;
+                font-size: 12px;
+            }
+
+            .register-button,
+            .google-button {
+                padding: 10px;
+                font-size: 14px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 20px;
+            }
+
+            h1 {
+                font-size: 1.5rem;
+            }
+
+            p {
+                font-size: 0.8rem;
+            }
+
+            .form-group input {
+                padding: 6px;
+                font-size: 12px;
+            }
+
+            .register-button,
+            .google-button {
+                padding: 8px;
+                font-size: 12px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Background Video -->
+    <video class="background-video" autoplay loop muted playsinline>
+        <source src="Windmill Landscape Wallpaper(MP4).mp4" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
+    <div class="container">
+        <h1>Create an Account</h1>
+        <p>Choose your role to register for ONESYNC</p>
+        <div class="role-buttons">
+            <button id="studentButton">Student</button>
+            <button id="teacherButton">Teacher</button>
+            <button id="instituteButton">Institute</button>
+        </div>
+
+        <!-- Student Section -->
+        <div id="studentSection" class="hidden">
+            <!-- Student Register Form -->
+            <div id="studentRegisterForm">
+                <div class="form-group">
+                    <label for="studentFullName">Full Name</label>
+                    <input type="text" id="studentFullName" placeholder="John Doe">
+                </div>
+                <div class="form-group">
+                    <label for="studentEmail">Email</label>
+                    <input type="email" id="studentEmail" placeholder="your.email@example.com">
+                </div>
+                <div class="form-group">
+                    <label for="studentPhone">Phone Number (Optional)</label>
+                    <input type="tel" id="studentPhone" placeholder="+91 83 0139-4567">
+                </div>
+                <div class="form-group">
+                    <label for="studentPassword">Password</label>
+                    <input type="password" id="studentPassword">
+                </div>
+                <div class="form-group">
+                    <label for="studentConfirmPassword">Confirm Password</label>
+                    <input type="password" id="studentConfirmPassword">
+                </div>
+                <button class="google-button" onclick="alert('Continue with Google clicked!')">Continue with Google</button>
+                <button class="register-button" onclick="document.location='homeandfeed.html'">Register</button>
+                <a href="#" class="login-link" id="studentLoginLink">Already have an account? Login</a>
+            </div>
+
+            <!-- Student Login Form -->
+            <div id="studentLoginForm" class="hidden">
+                <div class="form-group">
+                    <label for="studentLoginEmail">Email</label>
+                    <input type="email" id="studentLoginEmail" placeholder="your.email@example.com">
+                </div>
+                <div class="form-group">
+                    <label for="studentLoginPassword">Password</label>
+                    <input type="password" id="studentLoginPassword">
+                </div>
+                <button class="google-button" onclick="alert('Continue with Google clicked!')">Continue with Google</button>
+                <button class="register-button" onclick="document.location='homeandfeed.html'">Login</button>
+                <a href="#" class="login-link" id="studentRegisterLink">I don't have an account? Register</a>
+            </div>
+        </div>
+
+        <!-- Teacher Section -->
+        <div id="teacherSection" class="hidden">
+            <!-- Teacher Register Form -->
+            <div id="teacherRegisterForm">
+                <div class="form-group">
+                    <label for="teacherFullName">Full Name</label>
+                    <input type="text" id="teacherFullName" placeholder="John Doe">
+                </div>
+                <div class="form-group">
+                    <label for="teacherEmail">Email</label>
+                    <input type="email" id="teacherEmail" placeholder="your.email@example.com">
+                </div>
+                <div class="form-group">
+                    <label for="teacherPhone">Phone Number (Optional)</label>
+                    <input type="tel" id="teacherPhone" placeholder="+1 583 0139-4567">
+                </div>
+                <div class="form-group">
+                    <label for="teacherPassword">Password</label>
+                    <input type="password" id="teacherPassword">
+                </div>
+                <div class="form-group">
+                    <label for="teacherConfirmPassword">Confirm Password</label>
+                    <input type="password" id="teacherConfirmPassword">
+                </div>
+                <button class="google-button" onclick="alert('Continue with Google clicked!')">Continue with Google</button>
+                <button class="register-button" onclick="document.location='teacher_dashboard.html'">Register</button>
+                <a href="#" class="login-link" id="teacherLoginLink">Already have an account? Login</a>
+            </div>
+
+            <!-- Teacher Login Form -->
+            <div id="teacherLoginForm" class="hidden">
+                <div class="form-group">
+                    <label for="teacherLoginEmail">Email</label>
+                    <input type="email" id="teacherLoginEmail" placeholder="your.email@example.com">
+                </div>
+                <div class="form-group">
+                    <label for="teacherLoginPassword">Password</label>
+                    <input type="password" id="teacherLoginPassword">
+                </div>
+                <button class="google-button" onclick="alert('Continue with Google clicked!')">Continue with Google</button>
+                <button class="register-button" onclick="document.location='teacher_dashboard.html'">Login</button>
+                <a href="#" class="login-link" id="teacherRegisterLink">I don't have an account? Register</a>
+            </div>
+        </div>
+
+        <!-- Institute Section -->
+        <div id="instituteSection" class="hidden">
+            <!-- Institute Register Form -->
+            <div id="instituteRegisterForm">
+                <div class="form-group">
+                    <label for="instituteFullName">Full Name</label>
+                    <input type="text" id="instituteFullName" placeholder="John Doe">
+                </div>
+                <div class="form-group">
+                    <label for="instituteEmail">Email</label>
+                    <input type="email" id="instituteEmail" placeholder="your.email@example.com">
+                </div>
+                <div class="form-group">
+                    <label for="institutePhone">Phone Number (Optional)</label>
+                    <input type="tel" id="institutePhone" placeholder="+1 583 0139-4567">
+                </div>
+                <div class="form-group">
+                    <label for="institutePassword">Password</label>
+                    <input type="password" id="institutePassword">
+                </div>
+                <div class="form-group">
+                    <label for="instituteConfirmPassword">Confirm Password</label>
+                    <input type="password" id="instituteConfirmPassword">
+                </div>
+                <button class="google-button" onclick="alert('Continue with Google clicked!')">Continue with Google</button>
+                <button class="register-button" onclick="document.location='i_coming soon.html'">Register</button>
+                <a href="#" class="login-link" id="instituteLoginLink">Already have an account? Login</a>
+            </div>
+
+            <!-- Institute Login Form -->
+            <div id="instituteLoginForm" class="hidden">
+                <div class="form-group">
+                    <label for="instituteLoginEmail">Email</label>
+                    <input type="email" id="instituteLoginEmail" placeholder="your.email@example.com">
+                </div>
+                <div class="form-group">
+                    <label for="instituteLoginPassword">Password</label>
+                    <input type="password" id="instituteLoginPassword">
+                </div>
+                <button class="google-button" onclick="alert('Continue with Google clicked!')">Continue with Google</button>
+                <button class="register-button" onclick="document.location='i_coming soon.html'">Login</button>
+                <a href="#" class="login-link" id="instituteRegisterLink">I don't have an account? Register</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // JavaScript to toggle between roles and forms
+        const studentButton = document.getElementById('studentButton');
+        const teacherButton = document.getElementById('teacherButton');
+        const instituteButton = document.getElementById('instituteButton');
+        const studentSection = document.getElementById('studentSection');
+        const teacherSection = document.getElementById('teacherSection');
+        const instituteSection = document.getElementById('instituteSection');
+
+        // Student Section
+        const studentRegisterForm = document.getElementById('studentRegisterForm');
+        const studentLoginForm = document.getElementById('studentLoginForm');
+        const studentLoginLink = document.getElementById('studentLoginLink');
+        const studentRegisterLink = document.getElementById('studentRegisterLink');
+
+        // Teacher Section
+        const teacherRegisterForm = document.getElementById('teacherRegisterForm');
+        const teacherLoginForm = document.getElementById('teacherLoginForm');
+        const teacherLoginLink = document.getElementById('teacherLoginLink');
+        const teacherRegisterLink = document.getElementById('teacherRegisterLink');
+
+        // Institute Section
+        const instituteRegisterForm = document.getElementById('instituteRegisterForm');
+        const instituteLoginForm = document.getElementById('instituteLoginForm');
+        const instituteLoginLink = document.getElementById('instituteLoginLink');
+        const instituteRegisterLink = document.getElementById('instituteRegisterLink');
+
+        // Highlight Selected Role
+        function highlightRole(selectedButton) {
+            // Remove highlight from all buttons
+            studentButton.classList.remove('selected-role');
+            teacherButton.classList.remove('selected-role');
+            instituteButton.classList.remove('selected-role');
+
+            // Add highlight to the selected button
+            selectedButton.classList.add('selected-role');
+        }
+
+        // Role Buttons
+        studentButton.addEventListener('click', () => {
+            studentSection.classList.remove('hidden');
+            teacherSection.classList.add('hidden');
+            instituteSection.classList.add('hidden');
+            studentRegisterForm.classList.remove('hidden');
+            studentLoginForm.classList.add('hidden');
+            highlightRole(studentButton); // Highlight the selected button
+        });
+
+        teacherButton.addEventListener('click', () => {
+            teacherSection.classList.remove('hidden');
+            studentSection.classList.add('hidden');
+            instituteSection.classList.add('hidden');
+            teacherRegisterForm.classList.remove('hidden');
+            teacherLoginForm.classList.add('hidden');
+            highlightRole(teacherButton); // Highlight the selected button
+        });
+
+        instituteButton.addEventListener('click', () => {
+            instituteSection.classList.remove('hidden');
+            studentSection.classList.add('hidden');
+            teacherSection.classList.add('hidden');
+            instituteRegisterForm.classList.remove('hidden');
+            instituteLoginForm.classList.add('hidden');
+            highlightRole(instituteButton); // Highlight the selected button
+        });
+
+        // Student Form Toggle
+        studentLoginLink.addEventListener('click', (e) => {
+            e.preventDefault();
+            studentRegisterForm.classList.add('hidden');
+            studentLoginForm.classList.remove('hidden');
+        });
+
+        studentRegisterLink.addEventListener('click', (e) => {
+            e.preventDefault();
+            studentLoginForm.classList.add('hidden');
+            studentRegisterForm.classList.remove('hidden');
+        });
+
+        // Teacher Form Toggle
+        teacherLoginLink.addEventListener('click', (e) => {
+            e.preventDefault();
+            teacherRegisterForm.classList.add('hidden');
+            teacherLoginForm.classList.remove('hidden');
+        });
+
+        teacherRegisterLink.addEventListener('click', (e) => {
+            e.preventDefault();
+            teacherLoginForm.classList.add('hidden');
+            teacherRegisterForm.classList.remove('hidden');
+        });
+
+        // Institute Form Toggle
+        instituteLoginLink.addEventListener('click', (e) => {
+            e.preventDefault();
+            instituteRegisterForm.classList.add('hidden');
+            instituteLoginForm.classList.remove('hidden');
+        });
+
+        instituteRegisterLink.addEventListener('click', (e) => {
+            e.preventDefault();
+            instituteLoginForm.classList.add('hidden');
+            instituteRegisterForm.classList.remove('hidden');
+        });
+    </script>
+</body>
+</html>

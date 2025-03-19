@@ -1,0 +1,829 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Class Routine and Announcements | GMIT</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #1abc9c;
+            --transition: all 0.3s ease;
+        }
+
+        body {
+            --bg-color: #121212;
+            --card-bg: rgba(33, 33, 33, 0.9);
+            --text-primary: #ffffff;
+            --text-secondary: #b0b0b0;
+            --navbar-bg: rgba(27, 27, 27, 0.95);
+            --sidebar-bg: rgba(25, 25, 25, 0.95);
+            --content-bg: rgba(0, 0, 0, 0.7);
+            --shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+
+        body.light-theme {
+            --bg-color: #f5f5f5;
+            --card-bg: rgba(255, 255, 255, 0.9);
+            --text-primary: #333333;
+            --text-secondary: #666666;
+            --navbar-bg: rgba(255, 255, 255, 0.95);
+            --sidebar-bg: rgba(245, 245, 245, 0.95);
+            --content-bg: rgba(255, 255, 255, 0.7);
+            --shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-primary);
+            line-height: 1.6;
+            min-height: 100vh;
+            position: relative;
+            transition: var(--transition);
+        }
+
+        .background-video {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            object-fit: cover;
+            opacity: 0.3;
+            transition: var(--transition);
+        }
+
+        .navbar {
+            background-color: var(--navbar-bg);
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+        }
+
+        .navbar .profile {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .navbar .profile img {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            border: 2px solid var(--primary-color);
+        }
+
+        .navbar .info .name {
+            font-size: 18px;
+            font-weight: 600;
+        }
+
+        .navbar .info .role {
+            font-size: 14px;
+            color: var(--text-secondary);
+        }
+
+        .navbar .theme-toggle {
+            background: none;
+            border: none;
+            color: var(--text-primary);
+            font-size: 24px;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .navbar .theme-toggle:hover {
+            transform: scale(1.1);
+            color: var(--primary-color);
+        }
+
+        .sidebar {
+            width: 70px;
+            background-color: var(--sidebar-bg);
+            height: auto;
+            margin: 20px;
+            border-radius: 30px;
+            position: fixed;
+            top: 80px;
+            left: 0;
+            padding: 20px;
+            transition: var(--transition);
+            z-index: 999;
+            box-shadow: var(--shadow);
+        }
+
+        .sidebar:hover {
+            width: 220px;
+        }
+
+        .sidebar h2 {
+            font-size: 20px;
+            text-align: center;
+            margin-bottom: 20px;
+            opacity: 0;
+            transition: var(--transition);
+        }
+
+        .sidebar:hover h2 {
+            opacity: 1;
+        }
+
+        .sidebar ul {
+            list-style: none;
+        }
+
+        .sidebar ul li {
+            margin: 20px 0;
+        }
+
+        .sidebar ul li a {
+            color: var(--text-primary);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            padding: 10px;
+            border-radius: 8px;
+            transition: var(--transition);
+        }
+
+        .sidebar ul li a:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+            color: var(--primary-color);
+        }
+
+        .sidebar ul li a i {
+            margin-right: 15px;
+            font-size: 20px;
+            min-width: 20px;
+        }
+
+        .sidebar ul li a span {
+            opacity: 0;
+            font-size: 16px;
+            transition: var(--transition);
+        }
+
+        .sidebar:hover ul li a span {
+            opacity: 1;
+        }
+
+        .main-content {
+            margin: 100px 30px 30px 120px;
+            padding: 25px;
+            background-color: var(--content-bg);
+            border-radius: 15px;
+            min-height: calc(100vh - 130px);
+            transition: var(--transition);
+            box-shadow: var(--shadow);
+        }
+
+        .sidebar:hover~.main-content {
+            margin-left: 260px;
+        }
+
+        .main-content {
+            max-width: var(--max-width);
+            margin: 70px auto 2rem;
+            padding: 0 2rem;
+        }
+
+        .profile-container {
+            margin-left: 100px;
+        }
+
+        .cover-photo {
+            height: 300px;
+            background: url('https://via.placeholder.com/1200x300') no-repeat center;
+            background-size: cover;
+            border-radius: 12px 12px 0 0;
+            position: relative;
+        }
+
+        .profile-header {
+            position: relative;
+            margin-top: -80px;
+            padding: 0 2rem;
+        }
+
+        .profile-pic {
+            width: 160px;
+            height: 160px;
+            border-radius: 50%;
+            border: 4px solid var(--card-bg);
+            position: absolute;
+            left: 2rem;
+            top: -80px;
+            background: url('https://via.placeholder.com/160') no-repeat center;
+            background-size: cover;
+        }
+
+        .profile-info {
+            padding: 1rem 0 0 200px;
+        }
+
+        .profile-info h1 {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .profile-info p {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+        }
+
+        .content-grid {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .education-section,
+        .posts-section {
+            background-color: var(--card-bg);
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .education-section h2,
+        .posts-section h2 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: var(--primary-color);
+        }
+
+        .education-item {
+            margin-bottom: 1.5rem;
+        }
+
+        .education-item h3 {
+            font-size: 1.2rem;
+            margin-bottom: 0.3rem;
+        }
+
+        .education-item p {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+        }
+
+        .post-form {
+            margin-bottom: 2rem;
+        }
+
+        .post-form textarea {
+            width: 100%;
+            min-height: 100px;
+            padding: 1rem;
+            border: none;
+            border-radius: 8px;
+            background-color: rgba(0, 0, 0, 0.2);
+            color: var(--text-primary);
+            resize: vertical;
+            margin-bottom: 1rem;
+        }
+
+        .post-form button {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .post-form button:hover {
+            background-color: var(--secondary-color);
+        }
+
+        .post {
+            background-color: rgba(0, 0, 0, 0.2);
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+        }
+
+        .post-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .post-header img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+        }
+
+        .post-content {
+            margin: 0.5rem 0;
+        }
+
+        .post-meta {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                width: 100%;
+                height: 60px;
+                /* Fixed height for bottom bar */
+                top: auto;
+                bottom: 0;
+                left: 0;
+                margin: 0;
+                border-radius: 0;
+                padding: 0 10px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.2);
+            }
+
+            .sidebar ul {
+                display: flex;
+                justify-content: space-around;
+                width: 100%;
+                height: 100%;
+                align-items: center;
+            }
+
+            .sidebar h2,
+            .sidebar ul li a span {
+                display: none;
+            }
+
+            .sidebar ul li {
+                margin: 0;
+                flex: 1;
+                height: 100%;
+            }
+
+            .sidebar ul li a {
+                padding: 10px;
+                height: 100%;
+                justify-content: center;
+                border-radius: 0;
+            }
+
+            .sidebar ul li a i {
+                margin-right: 0;
+            }
+
+            .main-content {
+                margin: 100px 15px 80px 15px;
+                /* Adjusted bottom margin for fixed sidebar height */
+                min-height: calc(100vh - 160px);
+            }
+
+            .sidebar:hover {
+                width: 100%;
+                height: 60px;
+                /* Maintain fixed height on hover */
+            }
+
+            .sidebar:hover~.main-content {
+                margin-left: 15px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .navbar {
+                padding: 10px 15px;
+            }
+
+            .main-content h1 {
+                font-size: 24px;
+            }
+
+            .main-content h2 {
+                font-size: 20px;
+            }
+
+            .sidebar ul li a i {
+                font-size: 18px;
+            }
+        }
+
+
+
+
+        .main-content {
+            max-width: var(--max-width);
+            margin: 90px auto 2rem;
+            /* Consistent top margin with navbar height */
+            padding: 0 2rem;
+            transition: var(--transition);
+            position: relative;
+            /* Added for better positioning context */
+        }
+
+        /* Fixed width and centering */
+        .profile-container {
+            margin-left: 100px;
+            max-width: 1000px;
+            width: calc(100% - 100px);
+            /* Prevents overflow */
+            position: relative;
+        }
+
+        /* Adjusted height and added overflow control */
+        .cover-photo {
+            height: 250px;
+            background: url('https://via.placeholder.com/1200x300') no-repeat center;
+            background-size: cover;
+            border-radius: 12px 12px 0 0;
+            position: relative;
+            box-shadow: var(--shadow);
+            overflow: hidden;
+            /* Prevents background bleed */
+        }
+
+        /* Fixed negative margin glitch and padding */
+        .profile-header {
+            position: relative;
+            margin-top: -70px;
+            /* Aligned with profile-pic top */
+            padding: 0 1.5rem 1rem;
+            /* Added bottom padding */
+        }
+
+        /* Adjusted positioning and size */
+        .profile-pic {
+            width: 140px;
+            height: 140px;
+            border-radius: 50%;
+            border: 4px solid var(--bg-color);
+            position: absolute;
+            left: 1.5rem;
+            top: -70px;
+            background: url('https://via.placeholder.com/160') no-repeat center;
+            background-size: cover;
+            box-shadow: var(--shadow);
+            z-index: 1;
+            /* Ensures it stays above cover */
+            width: 140px;
+    height: 140px;
+    border-radius: 50%;
+    border: 4px solid var(--bg-color);
+    position: absolute;
+    left: 1.5rem;
+    top: -70px;
+    object-fit: cover; /* Replaces background-size: cover */
+    box-shadow: var(--shadow);
+    z-index: 1;
+        }
+
+        /* Fixed padding to prevent overlap */
+        .profile-info {
+            padding: 1rem 0 0 180px;
+            /* Slightly increased from 170px */
+            min-height: 80px;
+            /* Prevents collapse */
+        }
+
+        /* Adjusted typography */
+        .profile-info h1 {
+            font-size: 1.8rem;
+            margin-bottom: 0.3rem;
+            font-weight: 600;
+            line-height: 1.2;
+            /* Better text flow */
+        }
+
+        .profile-info p {
+            color: var(--text-secondary);
+            font-size: 1rem;
+            font-weight: 400;
+        }
+
+        /* Improved grid layout */
+        .content-grid {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 1.5rem;
+            margin-top: 2rem;
+            align-items: start;
+            /* Prevents stretching */
+        }
+
+        /* Consistent card styling */
+        .education-section,
+        .posts-section {
+            background-color: var(--card-bg);
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: var(--shadow);
+            overflow: hidden;
+            /* Prevents content bleed */
+        }
+
+        /* Refined headers */
+        .education-section h2,
+        .posts-section h2 {
+            font-size: 1.4rem;
+            margin-bottom: 1rem;
+            color: var(--primary-color);
+            font-weight: 600;
+        }
+
+        /* Fixed education item spacing */
+        .education-item {
+            margin-bottom: 1.25rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .education-item:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+
+        .education-item h3 {
+            font-size: 1.1rem;
+            margin-bottom: 0.3rem;
+            color: var(--text-primary);
+        }
+
+        .education-item p {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            margin: 0.2rem 0;
+            /* Consistent spacing */
+        }
+
+        /* Improved post form layout */
+        .post-form {
+            margin-bottom: 1.5rem;
+        }
+
+        .post-form textarea {
+            width: 100%;
+            min-height: 90px;
+            padding: 0.75rem;
+            border: none;
+            border-radius: 8px;
+            background-color: rgba(0, 0, 0, 0.2);
+            color: var(--text-primary);
+            resize: vertical;
+            margin-bottom: 0.75rem;
+            font-size: 0.95rem;
+            box-sizing: border-box;
+            /* Ensures padding doesn't affect width */
+        }
+
+        .post-form button {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 0.6rem 1.5rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.95rem;
+            font-weight: 500;
+            transition: var(--transition);
+            display: block;
+            /* Prevents collapse */
+        }
+
+        .post-form button:hover {
+            background-color: var(--secondary-color);
+            transform: translateY(-2px);
+        }
+
+        /* Fixed post sizing */
+        .post {
+            background-color: rgba(0, 0, 0, 0.15);
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            /* Prevents content overflow */
+        }
+
+        /* Improved post header alignment */
+        .post-header {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 0.5rem;
+            flex-wrap: nowrap;
+            /* Prevents wrapping */
+        }
+
+        .post-header img {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            border: 1px solid var(--primary-color);
+            flex-shrink: 0;
+            /* Prevents image distortion */
+        }
+
+        .post-header strong {
+            font-size: 1rem;
+            white-space: nowrap;
+            /* Keeps name on one line */
+        }
+
+        .post-content {
+            margin: 0.5rem 0;
+            font-size: 0.95rem;
+            word-wrap: break-word;
+            /* Handles long words */
+        }
+
+        .post-meta {
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .main-content {
+                margin: 80px 1rem 80px;
+                padding: 1rem;
+            }
+
+            .profile-container {
+                margin-left: 0;
+                width: 100%;
+            }
+
+            .cover-photo {
+                height: 200px;
+            }
+
+            .profile-header {
+                margin-top: -60px;
+            }
+
+            .profile-pic {
+                width: 120px;
+                height: 120px;
+                top: -60px;
+                left: 1rem;
+            }
+
+            .profile-info {
+                padding: 0.5rem 0 0 140px;
+            }
+
+            .content-grid {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .profile-pic {
+                width: 100px;
+                height: 100px;
+                top: -50px;
+            }
+
+            .profile-info {
+                padding-left: 120px;
+            }
+
+            .profile-info h1 {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <video class="background-video" autoplay loop muted playsinline>
+    <source src="Windmill Landscape Wallpaper(MP4).mp4" type="video/mp4">
+    Your browser does not support the video tag.
+</video>
+
+    <div class="navbar">
+        <div class="profile">
+            <img src="WhatsApp Image 2025-03-02 at 23.01.15_66336f4b.jpg" alt="Profile Picture">
+            <div class="info">
+                <div class="name">MAHAMMAD ANISH</div>
+                <div class="role">Student - GMIT</div>
+            </div>
+        </div>
+        <button class="theme-toggle" onclick="toggleTheme()">
+            <i class="fas fa-moon"></i>
+        </button>
+    </div>
+
+    <div class="sidebar">
+        <h2>Dashboard</h2>
+        <ul>
+            <li><a href="homeandfeed.html"><i class="fas fa-home"></i><span>Home</span></a></li>
+            <li><a href="sprofile.html"><i class="fas fa-user"></i><span>Profile</span></a></li>
+            <li><a href="Institutes.html"><i class="fas fa-school"></i><span>Institute</span></a></li>
+            <li><a href="class.html"><i class="fas fa-chalkboard"></i><span>Classes</span></a></li>
+            <li><a href="attadenc.html"><i class="fas fa-clipboard-check"></i><span>Attendance</span></a></li>
+            <li><a href="notifacation.html"><i class="fas fa-bell"></i><span>Notifications</span></a></li>
+            <li><a href="schat.html"><i class="fas fa-comments"></i><span>Chats</span></a></li>
+            <li><a href="ssettings.html"><i class="fas fa-cog"></i><span>Settings</span></a></li>
+        </ul>
+    </div>
+
+    <<div class="main-content">
+        <div class="profile-container">
+            <img class="cover-photo" src="pixelcut-export (1).jpeg" alt="Profile Image">
+            <div class="profile-header">
+                <img class="profile-pic" src="WhatsApp Image 2025-03-02 at 23.01.15_66336f4b.jpg" alt="Profile Image">
+                <div class="profile-info">
+                    <h1>MAHAMMAD ANISH</h1>
+                    <p>Computer Science Student at GMIT</p>
+                </div>
+            </div>
+
+            <div class="content-grid">
+                <div class="education-section">
+                    <h2>Education</h2>
+                    <div class="education-item">
+                        <h3>Bachelor of Science in Computer Science</h3>
+                        <p>GMIT - 2022-Present</p>
+                        <p>GPA: 3.8/4.0</p>
+                    </div>
+                    <div class="education-item">
+                        <h3>High School Diploma</h3>
+                        <p>Central High School - 2018-2022</p>
+                        <p>GPA: 4.0/4.0</p>
+                    </div>
+                </div>
+
+                <div class="posts-section">
+                    <h2>Posts</h2>
+                    <div class="post-form">
+                        <textarea placeholder="What's on your mind?"></textarea>
+                        <button onclick="createPost()">Post</button>
+                    </div>
+                    <div id="posts-container">
+                        <div class="post">
+                            <div class="post-header">
+                                <img src="WhatsApp Image 2025-03-02 at 23.01.15_66336f4b.jpg" alt="Profile">
+                                <div>
+                                    <strong>John Doe</strong>
+                                    <div class="post-meta">March 18, 2025 • 2:30 PM</div>
+                                </div>
+                            </div>
+                            <div class="post-content">
+                                Just finished my CS project! Feeling accomplished.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </div>
+
+        <script>
+            function toggleTheme() {
+                const body = document.body;
+                const themeIcon = document.querySelector('.theme-toggle i');
+                body.classList.toggle('light-theme');
+                if (body.classList.contains('light-theme')) {
+                    themeIcon.classList.remove('fa-moon');
+                    themeIcon.classList.add('fa-sun');
+                    localStorage.setItem('theme', 'light');
+                } else {
+                    themeIcon.classList.remove('fa-sun');
+                    themeIcon.classList.add('fa-moon');
+                    localStorage.setItem('theme', 'dark');
+                }
+            }
+
+            document.addEventListener('DOMContentLoaded', () => {
+                const savedTheme = localStorage.getItem('theme');
+                const themeIcon = document.querySelector('.theme-toggle i');
+                if (savedTheme === 'light') {
+                    document.body.classList.add('light-theme');
+                    themeIcon.classList.remove('fa-moon');
+                    themeIcon.classList.add('fa-sun');
+                }
+            });
+        </script>
+</body>
+
+</html>
