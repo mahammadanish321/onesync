@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Get Started | ONESYNC</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #1abc9c; /* Teal */
+            --secondary-color: #2c3e50; /* Dark Blue */
+            --accent-color: #e74c3c; /* Red */
+            --bg-color: #f5f5f5; /* Light background */
+            --card-bg: #ffffff; /* White cards */
+            --text-primary: #333333; /* Dark text */
+            --text-secondary: #666666; /* Gray text */
+            --shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* Soft shadow */
+            --transition: all 0.6s ease; /* Increased from 0.3s to 0.6s */
+        }
+
+        body.dark-theme {
+            --bg-color: #121212; /* Dark background */
+            --card-bg: #1e1e1e; /* Dark cards */
+            --text-primary: #ffffff; /* White text */
+            --text-secondary: #b0b0b0; /* Light gray text */
+            --shadow: 0 4px 12px rgba(0, 0, 0, 0.3); /* Darker shadow */
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, var(--bg-color), var(--primary-color));
+            color: var(--text-primary);
+            line-height: 1.6;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        .background-video {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            object-fit: cover;
+            opacity: 0.2;
+            filter: blur(8px);
+            animation: fadeIn 2s ease-in-out;
+        }
+
+
+        .navbar {
+            background-color: var(--card-bg);
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            box-shadow: var(--shadow);
+            animation: slideIn 0.5s ease-out;
+        }
+
+        @keyframes slideIn {
+            0% { transform: translateY(-100%); }
+            100% { transform: translateY(0); }
+        }
+
+        .navbar .logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .navbar .logo img {
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            transition: transform 0.5s ease;
+        }
+
+        .navbar .logo img:hover {
+            transform: rotate(360deg) scale(1.1);
+        }
+
+        .navbar .logo .brand-name {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--text-primary);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .navbar .theme-toggle {
+            background: none;
+            border: none;
+            color: var(--text-primary);
+            font-size: 22px;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .navbar .theme-toggle:hover {
+            color: var(--primary-color);
+            transform: rotate(360deg);
+        }
+
+        /* Hero Section */
+        .hero {
+            position: relative;
+            width: 100%;
+            height: 70vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            margin-top: 60px;
+            overflow: hidden;
+        }
+
+        .hero img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover; /* Ensures the image covers the section */
+            z-index: 0;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.4); /* Overlay for text readability */
+            z-index: 1;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            color: #ffffff;
+            animation: fadeInUp 1s ease-out;
+            padding: 20px;
+        }
+
+        .hero-content h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.5);
+        }
+
+        .hero-content p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .hero-content .cta-btn {
+            background-color: var(--primary-color);
+            color: #ffffff;
+            border: none;
+            padding: 0.9rem 2rem;
+            border-radius: 6px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .hero-content .cta-btn:hover {
+            background-color: var(--secondary-color);
+            transform: scale(1.1);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        @keyframes fadeInUp {
+            0% { opacity: 0; transform: translateY(30px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+
+        .get-started-container {
+            background-color: var(--card-bg);
+            border-radius: 12px;
+            padding: 2rem;
+            max-width: 700px;
+            width: 85%;
+            text-align: center;
+            box-shadow: var(--shadow);
+            margin: 40px auto;
+            animation: popIn 0.8s ease-out;
+        }
+
+        @keyframes popIn {
+            0% { transform: scale(0.9); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        .get-started-container h1 {
+            font-size: 1.8rem;
+            color: var(--text-primary);
+            margin-bottom: 0.8rem;
+        }
+
+        .get-started-container p {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            margin-bottom: 1.5rem;
+        }
+
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .feature-item {
+            padding: 1rem;
+            background-color: var(--card-bg);
+            border-radius: 8px;
+            transition: var(--transition);
+            box-shadow: var(--shadow);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .feature-item::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(26, 188, 156, 0.3), transparent);
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+
+        .feature-item:hover::before {
+            opacity: 1;
+        }
+
+        .feature-item:hover {
+            transform: translateY(-5px) scale(1.03);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+        }
+
+        .feature-item i {
+            font-size: 1.6rem;
+            color: var(--primary-color);
+            margin-bottom: 0.8rem;
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+
+        .feature-item h3 {
+            font-size: 1rem;
+            margin-bottom: 0.4rem;
+            color: var(--text-primary);
+        }
+
+        .feature-item p {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+        }
+
+        .additional-info {
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            margin-top: 0.5rem;
+            opacity: 0;
+            animation: fadeInUp 1s ease-out 0.5s forwards;
+        }
+
+        .get-started-btn {
+            background-color: var(--primary-color);
+            color: #ffffff;
+            border: none;
+            padding: 0.8rem 1.6rem;
+            border-radius: 6px;
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .get-started-btn::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: rgba(255, 255, 255, 0.4);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            transition: width 0.5s ease, height 0.5s ease;
+        }
+
+        .get-started-btn:hover::after {
+            width: 200px;
+            height: 200px;
+        }
+
+        .get-started-btn:hover {
+            background-color: var(--secondary-color);
+            transform: scale(1.1);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        @media (max-width: 768px) {
+            .hero {
+                height: 50vh;
+            }
+
+            .hero-content h1 {
+                font-size: 2rem;
+            }
+
+            .hero-content p {
+                font-size: 1rem;
+            }
+
+            .get-started-container {
+                padding: 1.5rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .navbar {
+                padding: 8px 12px;
+            }
+
+            .navbar .logo .brand-name {
+                font-size: 16px;
+            }
+
+            .hero-content h1 {
+                font-size: 1.5rem;
+            }
+
+            .hero-content .cta-btn {
+                padding: 0.7rem 1.5rem;
+                font-size: 0.9rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <video class="background-video" autoplay loop muted playsinline>
+        <source src="Windmill Landscape Wallpaper(MP4).mp4" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
+    <!-- Navbar with Logo -->
+    <div class="navbar">
+        <div class="logo">
+            <img src="Blue and Yellow Simple Online Class for Education Logo (1).png" alt="ONESYNC Logo">
+            <div class="brand-name">ONESYNC</div>
+        </div>
+        <button class="theme-toggle" onclick="toggleTheme()">
+            <i class="fas fa-moon"></i>
+        </button>
+    </div>
+
+    <!-- Hero Section with Image Tag -->
+    <section class="hero">
+        <img src="Gradient Colorful Minimalist Coming  Soon Banner.png" alt="ONESYNC Hero Image">
+        <div class="hero-content">
+            <h1>ONESYNC: Your Education Revolution</h1>
+            <p>Streamline your learning experience with a platform designed for students, teachers, and collaboration.</p>
+            <button class="cta-btn" onclick="scrollToFeatures()">Explore Now</button>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <div class="get-started-container" id="features">
+        <h1>Why Choose ONESYNC?</h1>
+        <p>Discover powerful tools to enhance your educational journey.</p>
+        <div class="features">
+            <div class="feature-item">
+                <i class="fas fa-chalkboard"></i>
+                <h3>Classes</h3>
+                <p>View live and upcoming classes effortlessly.</p>
+                <div class="additional-info">Schedule reminders and join with one click!</div>
+            </div>
+            <div class="feature-item">
+                <i class="fas fa-clipboard-check"></i>
+                <h3>Attendance</h3>
+                <p>Register attendance with QR codes or port codes.</p>
+                <div class="additional-info">Track your attendance history in real-time.</div>
+            </div>
+            <div class="feature-item">
+                <i class="fas fa-comments"></i>
+                <h3>Chats</h3>
+                <p>Connect with teachers and peers in group chats.</p>
+                <div class="additional-info">Share files and collaborate instantly.</div>
+            </div>
+            <div class="feature-item">
+                <i class="fas fa-tasks"></i>
+                <h3>Tasks</h3>
+                <p>Manage assignments and deadlines with ease.</p>
+                
+                <div class="additional-info">Get notifications for upcoming due dates.</div>
+
+
+            </div>
+        </div>
+        <button class="get-started-btn" onclick="getStarted()">Get Started Now</button>
+    </div>
+
+    <script>
+        function toggleTheme() {
+            const body = document.body;
+            const themeIcon = document.querySelector('.theme-toggle i');
+            body.classList.toggle('dark-theme');
+            themeIcon.classList.toggle('fa-moon');
+            themeIcon.classList.toggle('fa-sun');
+            localStorage.setItem('theme', body.classList.contains('dark-theme') ? 'dark' : 'light');
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const savedTheme = localStorage.getItem('theme');
+            const themeIcon = document.querySelector('.theme-toggle i');
+            if (savedTheme === 'dark') {
+                document.body.classList.add('dark-theme');
+                themeIcon.classList.remove('fa-moon');
+                themeIcon.classList.add('fa-sun');
+            }
+        });
+
+        function getStarted() {
+            console.log('Get Started clicked');
+            window.location.href = 'login.html'; // Adjust as needed
+        }
+
+        function scrollToFeatures() {
+            document.getElementById('features').scrollIntoView({ behavior: 'smooth' });
+        }
+    </script>
+</body>
+</html>
